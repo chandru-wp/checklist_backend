@@ -1,0 +1,33 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String      @unique
+  password  String
+  role      String
+  checklists Checklist[]
+}
+
+model Checklist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  items     Json
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Template {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  items     Json
+  createdAt DateTime @default(now())
+}

@@ -26,8 +26,9 @@ router.post("/", verifyToken, async (req, res) => {
         const checklist = await prisma.checklist.create({
             data: {
                 userId: req.user.id,
-                items: items, // Assuming items is JSON or similar structure in your schema
-                title: title || "New Checklist" // Assuming you might want a title
+                title: title || "New Checklist",
+                date: date,
+                items: items
             }
         });
 
